@@ -75,11 +75,11 @@ void LCD_init(uint8_t addr, uint8_t dataPin, uint8_t clockPin, uint8_t cols, uin
     LCD_cols = cols;
     LCD_rows = rows;
     I2C_init();
-    vTaskDelay(100 / portTICK_RATE_MS);                                 // Initial 40 mSec delay
+    vTaskDelay(100 / portTICK_PERIOD_MS);                                 // Initial 40 mSec delay
 
     // Reset the LCD controller
     LCD_writeNibble(LCD_FUNCTION_RESET, LCD_COMMAND);                   // First part of reset sequence
-    vTaskDelay(10 / portTICK_RATE_MS);                                  // 4.1 mS delay (min)
+    vTaskDelay(10 / portTICK_PERIOD_MS);                                  // 4.1 mS delay (min)
     LCD_writeNibble(LCD_FUNCTION_RESET, LCD_COMMAND);                   // second part of reset sequence
     ets_delay_us(200);                                                  // 100 uS delay (min)
     LCD_writeNibble(LCD_FUNCTION_RESET, LCD_COMMAND);                   // Third time's a charm
@@ -93,7 +93,7 @@ void LCD_init(uint8_t addr, uint8_t dataPin, uint8_t clockPin, uint8_t cols, uin
 
     // Clear Display instruction
     LCD_writeByte(LCD_CLEAR, LCD_COMMAND);                              // clear display RAM
-    vTaskDelay(2 / portTICK_RATE_MS);                                   // Clearing memory takes a bit longer
+    vTaskDelay(2 / portTICK_PERIOD_MS);                                   // Clearing memory takes a bit longer
     
     // Entry Mode Set instruction
     LCD_writeByte(LCD_ENTRY_MODE, LCD_COMMAND);                         // Set desired shift characteristics
@@ -127,13 +127,13 @@ void LCD_writeStr(char* str)
 void LCD_home(void)
 {
     LCD_writeByte(LCD_HOME, LCD_COMMAND);
-    vTaskDelay(2 / portTICK_RATE_MS);                                   // This command takes a while to complete
+    vTaskDelay(2 / portTICK_PERIOD_MS);                                   // This command takes a while to complete
 }
 
 void LCD_clearScreen(void)
 {
     LCD_writeByte(LCD_CLEAR, LCD_COMMAND);
-    vTaskDelay(2 / portTICK_RATE_MS);                                   // This command takes a while to complete
+    vTaskDelay(2 / portTICK_PERIOD_MS);                                   // This command takes a while to complete
 }
 
 static void LCD_writeNibble(uint8_t nibble, uint8_t mode)
